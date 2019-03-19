@@ -1,0 +1,16 @@
+<h1>Personas</h1>
+
+<table>
+	<% @personas.each do |persona| %>
+		<tr>
+			<td><%= persona.name %>
+				<% persona.proyectos.each do |proyecto| %>
+					<%= proyecto.nombre %>
+				<% end %>
+
+
+			</td>
+		</tr>
+	<% end %>
+
+</table>
