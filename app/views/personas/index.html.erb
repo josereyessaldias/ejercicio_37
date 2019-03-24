@@ -1,11 +1,30 @@
 <h1>Personas</h1>
 
-<table>
+<table class="table">
+	<thead> 
+		<td>Nombre</td>
+		<td>Proyectos asociados</td>
+		<td>Asignar Proyectos</td>
+	</thead>
 	<% @personas.each do |persona| %>
 		<tr>
-			<td><%= persona.name %>
+			<td><%= link_to 'Eliminar', persona_path(persona), method: :delete, :class => 'btn btn-sm btn-danger' %>
+				<%= link_to 'Editar', edit_persona_path(persona), :class => 'btn btn-sm btn-success' %>
+				<%= persona.name %>
+			</td>
+			<td>
 				<% persona.proyectos.each do |proyecto| %>
 					<%= proyecto.nombre %>
+					<%= link_to 'Borrar', asignacion_del_path(persona, proyecto), method: :delete %>
+					|
+				<% end %>
+			</td>
+			<td>
+				<%= form_with(model: @asignacion, url: asignacions_path(persona), local: true) do |f| %>
+
+					<%= f.select :proyecto_id, Proyecto.pluck(:nombre, :id) %>
+
+					<%= f.submit "Agregar", :class => 'btn btn-sm btn-light' %>
 				<% end %>
 
 
@@ -14,3 +33,17 @@
 	<% end %>
 
 </table>
+<br>
+<h3>Agregar Persona</h3>
+
+<%= form_with(model: @persona, local: true) do |form| %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
